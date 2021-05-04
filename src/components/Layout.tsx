@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Nav from './Nav';
+import TopBar from './TopBar';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -14,6 +15,7 @@ const Main = styled.div`
 const Layout = (props: { children: {} }) => {
   return (
     <Wrapper>
+      <TopBar/>
       <Main>
         {props.children}
       </Main>
