@@ -1,22 +1,17 @@
 import Layout from 'components/Layout';
 import Icon from '../components/Icon';
 import styled from 'styled-components';
+import React from 'react';
 
-type Data = {
+type Tags = {
   [key: string]: string
 }
-
-const data: Data = {
-  eat: '饮食',
-  live: '住房',
-  water: '水电',
-  play: '娱乐'
-};
 
 const LabelList = styled.div`
   max-height: 65vh;
   overflow: auto;
   margin-top: 5px;
+  padding-bottom: 10px;
   display: flex;
   justify-content: center;
   ul {
@@ -34,6 +29,24 @@ const LabelList = styled.div`
       align-items: center;
       border: 1px solid #999;
       border-radius: 50%;
+      &.selected {
+        animation: chosen .5s ease both;
+        border: none;
+      }
+    }
+  }
+  @keyframes chosen {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+      background: #ff8f78;
+      color: #fff;
+      box-shadow: 0 0 2.8px .4px #ff8f78;
     }
   }
 `;
@@ -50,11 +63,24 @@ const Button = styled.button`
 `;
 
 const Money = () => {
+  const [tags] = React.useState<Tags>({
+    eat: '饮食',
+    live: '住房',
+    water: '水电',
+    play: '娱乐'
+  });
+  const [selectedTag, setSelectedTag] = React.useState('');
+  const selectTag = (tag: string) => {
+    setSelectedTag(tag === selectedTag ? '' : tag);
+  };
   return (
     <Layout>
       <LabelList>
         <ul>
-          {Object.keys(data).map((item, index) => <li key={index}><Icon name={item}/>{data[item]}</li>)}
+          {Object.keys(tags).map(tag =>
+            <li onClick={() => selectTag(tag)} className={tag === selectedTag ? 'selected' : ''} key={tag}><Icon
+              name={tag}/>{tags[tag]}</li>
+          )}
         </ul>
       </LabelList>
       <Button>记一笔</Button>
