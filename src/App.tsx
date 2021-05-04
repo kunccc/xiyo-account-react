@@ -1,55 +1,51 @@
 import {HashRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import React from 'react';
-import styled from 'styled-components';
-import Nav from './components/Nav';
-
-const Wrapper = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-`;
-const Main = styled.div`
-  flex-grow: 1;
-  overflow: auto;
-`;
+import Layout from 'components/Layout';
 
 function App() {
   return (
     <Router>
-      <Wrapper>
-        <Main>
-          <Switch>
-            <Route path="/labels">
-              <Labels/>
-            </Route>
-            <Route path="/money">
-              <Money/>
-            </Route>
-            <Route path="/statistic">
-              <Statistic/>
-            </Route>
-            <Redirect exact from="/" to="/money"/>
-            <Route path="*">
-              <NoMatch/>
-            </Route>
-          </Switch>
-        </Main>
-        <Nav/>
-      </Wrapper>
+      <Switch>
+        <Route path="/labels">
+          <Labels/>
+        </Route>
+        <Route path="/money">
+          <Money/>
+        </Route>
+        <Route path="/statistic">
+          <Statistic/>
+        </Route>
+        <Redirect exact from="/" to="/money"/>
+        <Route path="*">
+          <NoMatch/>
+        </Route>
+      </Switch>
     </Router>
   );
 }
 
 function Labels() {
-  return <h2>标签</h2>;
+  return (
+    <Layout>
+      <h2>标签</h2>
+    </Layout>
+  );
 }
 
 function Money() {
-  return <h2>记账</h2>;
+  return (
+    <Layout>
+      <h2>记账</h2>
+    </Layout>
+  );
 }
 
 function Statistic() {
-  return <h2>数据</h2>;
+  return (
+    <Layout>
+      <h2>数据</h2>
+    </Layout>
+  );
 }
 
 function NoMatch() {
