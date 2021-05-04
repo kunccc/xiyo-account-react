@@ -22,7 +22,7 @@ function Nav() {
     <NavWrapper>
       <ul>
         <li>
-          <Link to="/tags">标签</Link>
+          <Link to="/labels">标签</Link>
         </li>
         <li>
           <Link to="/money">记账</Link>

@@ -19,8 +19,8 @@ function App() {
       <Wrapper>
         <Main>
           <Switch>
-            <Route path="/tags">
-              <Tags/>
+            <Route path="/labels">
+              <Labels/>
             </Route>
             <Route path="/money">
               <Money/>
@@ -40,7 +40,7 @@ function App() {
   );
 }
 
-function Tags() {
+function Labels() {
   return <h2>标签</h2>;
 }
 
