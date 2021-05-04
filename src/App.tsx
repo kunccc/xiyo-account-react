@@ -1,8 +1,11 @@
 import {HashRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import React from 'react';
-import Layout from 'components/Layout';
+import Labels from './views/Labels';
+import Money from './views/Money';
+import Statistic from './views/Statistic';
+import NoMatch from './views/NoMatch';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Switch>
@@ -22,34 +25,6 @@ function App() {
       </Switch>
     </Router>
   );
-}
-
-function Labels() {
-  return (
-    <Layout>
-      <h2>标签</h2>
-    </Layout>
-  );
-}
-
-function Money() {
-  return (
-    <Layout>
-      <h2>记账</h2>
-    </Layout>
-  );
-}
-
-function Statistic() {
-  return (
-    <Layout>
-      <h2>数据</h2>
-    </Layout>
-  );
-}
-
-function NoMatch() {
-  return <h2>路径错误</h2>;
 }
 
 export default App;

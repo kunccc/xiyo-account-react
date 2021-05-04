@@ -20,7 +20,7 @@ const NavWrapper = styled.nav`
   }
 `;
 
-function Nav() {
+const Nav = () => {
   return (
     <NavWrapper>
       <ul>
