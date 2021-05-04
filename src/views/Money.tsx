@@ -62,7 +62,7 @@ const Button = styled.button`
   border-radius: 14px;
 `;
 
-const Money = () => {
+const Money: React.FC = () => {
   const [tags] = React.useState<Tags>({
     eat: '饮食',
     live: '住房',

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import React from 'react';
 
 const TopBarWrapper = styled.div`
   height: 42px;
@@ -21,7 +22,7 @@ const TopBarWrapper = styled.div`
   }
 `;
 
-const TopBar = () => {
+const TopBar: React.FC = () => {
   return (
     <TopBarWrapper>
       <button>支出</button>
