@@ -14,7 +14,7 @@ const TopBarWrapper = styled.div`
     border-radius: 8px;
     background: #f1f1f1;
     color: #ff8f78;
-    &:first-child {
+    &.selected {
       background: #ff8f78;
       color: #fff;
       box-shadow: 0 0 2px .3px #ff8f78;
@@ -23,10 +23,16 @@ const TopBarWrapper = styled.div`
 `;
 
 const TopBar: React.FC = () => {
+  const tabMap = {pay: '支出', income: '收入'};
+  type Keys = keyof typeof tabMap
+  const [tabs] = React.useState<Keys[]>(['pay', 'income']);
+  const [selectedTab, setSelectedTab] = React.useState('pay');
   return (
     <TopBarWrapper>
-      <button>支出</button>
-      <button>收入</button>
+      {tabs.map(key =>
+        <button className={selectedTab === key ? 'selected' : ''} onClick={() => setSelectedTab(key)}
+                key={key}>{tabMap[key]}</button>
+      )}
     </TopBarWrapper>
   );
 };
