@@ -1,9 +1,8 @@
 import {HashRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
-import React from 'react';
-import Labels from './views/Labels';
-import Money from './views/Money';
-import Statistic from './views/Statistic';
-import NoMatch from './views/NoMatch';
+import Labels from 'views/Labels';
+import Money from 'views/Money';
+import Statistic from 'views/Statistic';
+import NoMatch from 'views/NoMatch';
 
 const App = () => {
   return (
