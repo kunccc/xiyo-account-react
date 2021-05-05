@@ -2,10 +2,7 @@ import Layout from 'components/Layout';
 import Icon from '../components/Icon';
 import styled from 'styled-components';
 import React from 'react';
-
-type Tags = {
-  [key: string]: string
-}
+import {useTags} from 'lib/useTags';
 
 const LabelList = styled.div`
   max-height: 65vh;
@@ -63,24 +60,18 @@ const Button = styled.button`
 `;
 
 const Money: React.FC = () => {
-  const [tags] = React.useState<Tags>({
-    eat: '饮食',
-    live: '住房',
-    water: '水电',
-    play: '娱乐'
-  });
-  const [selectedTag, setSelectedTag] = React.useState('');
-  const selectTag = (tag: string) => {
-    setSelectedTag(tag === selectedTag ? '' : tag);
+  const {tags} = useTags();
+  const [selectedTagId, setSelectedTagId] = React.useState(0);
+  const selectTag = (tagId: number) => {
+    setSelectedTagId(tagId === selectedTagId ? 0 : tagId);
   };
   return (
     <Layout>
       <LabelList>
         <ul>
-          {Object.keys(tags).map(tag =>
-            <li onClick={() => selectTag(tag)} className={tag === selectedTag ? 'selected' : ''} key={tag}><Icon
-              name={tag}/>{tags[tag]}</li>
-          )}
+          {tags.map(tag =>
+            <li onClick={() => selectTag(tag.id)} className={selectedTagId === tag.id ? 'selected' : ''}
+                key={tag.id}><Icon name={tag.enName}/>{tag.chName}</li>)}
         </ul>
       </LabelList>
       <Button>记一笔</Button>
