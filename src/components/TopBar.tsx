@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
+import {useTab} from 'lib/useTab';
 
 const TopBarWrapper = styled.div`
   height: 42px;
@@ -26,12 +27,12 @@ const TopBar: React.FC = () => {
   const tabMap = {pay: '支出', income: '收入'};
   type Keys = keyof typeof tabMap
   const [tabs] = React.useState<Keys[]>(['pay', 'income']);
-  const [selectedTab, setSelectedTab] = React.useState('pay');
+  const {selectedTab, setSelectedTab} = useTab();
   return (
     <TopBarWrapper>
-      {tabs.map(key =>
-        <button className={selectedTab === key ? 'selected' : ''} onClick={() => setSelectedTab(key)}
-                key={key}>{tabMap[key]}</button>
+      {tabs.map(type =>
+        <button className={selectedTab === type ? 'selected' : ''} onClick={() => setSelectedTab(type)}
+                key={type}>{tabMap[type]}</button>
       )}
     </TopBarWrapper>
   );

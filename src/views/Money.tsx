@@ -71,7 +71,8 @@ const Money: React.FC = () => {
         <ul>
           {tags.map(tag =>
             <li onClick={() => selectTag(tag.id)} className={selectedTagId === tag.id ? 'selected' : ''}
-                key={tag.id}><Icon name={tag.enName}/>{tag.chName}</li>)}
+                key={tag.id}><Icon name={tag.enName}/>{tag.chName}</li>
+          )}
         </ul>
       </LabelList>
       <Button>记一笔</Button>
