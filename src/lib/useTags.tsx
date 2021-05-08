@@ -1,6 +1,4 @@
-import React from 'react';
 import {createId} from './createId';
-import {useTab} from './useTab';
 
 const tagsSourceForPay = [
   {id: createId(), enName: 'eat', chName: '饮食'},
@@ -19,9 +17,7 @@ const tagsSourceForIncome = [
 ];
 
 const useTags = () => {
-  const {selectedTab} = useTab();
-  const [tags] = React.useState(selectedTab === 'pay' ? tagsSourceForPay : tagsSourceForIncome);
-  return {tags};
+  return {tagsSourceForPay, tagsSourceForIncome};
 };
 
 export {useTags};

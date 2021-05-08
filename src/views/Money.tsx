@@ -60,13 +60,17 @@ const Button = styled.button`
 `;
 
 const Money: React.FC = () => {
-  const {tags} = useTags();
+  const {tagsSourceForPay, tagsSourceForIncome} = useTags();
+  const [tags, setTags] = React.useState(tagsSourceForPay);
+  const selectTab = (selectedTab: string) => {
+    setTags(selectedTab === 'pay' ? tagsSourceForPay : tagsSourceForIncome);
+  };
   const [selectedTagId, setSelectedTagId] = React.useState(0);
   const selectTag = (tagId: number) => {
     setSelectedTagId(tagId === selectedTagId ? 0 : tagId);
   };
   return (
-    <Layout>
+    <Layout selectTab={selectTab}>
       <LabelList>
         <ul>
           {tags.map(tag =>
