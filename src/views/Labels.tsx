@@ -1,8 +1,9 @@
 import Layout from 'components/Layout';
 import React from 'react';
-import {useTags} from '../lib/useTags';
+import {useTags} from 'lib/useTags';
 import Icon from 'components/Icon';
 import styled from 'styled-components';
+import 'styles/IconResetForLabels.scss';
 
 const Ol = styled.ol`
   li {

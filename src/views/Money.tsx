@@ -3,6 +3,7 @@ import Icon from '../components/Icon';
 import styled from 'styled-components';
 import React from 'react';
 import {useTags} from 'lib/useTags';
+import 'styles/IconResetForMoney.scss';
 
 const LabelList = styled.div`
   max-height: 65vh;
@@ -24,8 +25,11 @@ const LabelList = styled.div`
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      border: 1px solid #999;
+      border: 1px solid #aaa;
       border-radius: 50%;
+      .icon {
+        margin-bottom: 2px;
+      }
       &.selected {
         animation: chosen .5s ease both;
         border: none;

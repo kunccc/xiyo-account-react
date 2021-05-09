@@ -5,7 +5,7 @@ const tagsSourceForPay = [
   {id: createId(), enName: 'live', chName: '住房'},
   {id: createId(), enName: 'water', chName: '水电'},
   {id: createId(), enName: 'play', chName: '娱乐'},
-  {id: createId(), enName: 'hospi', chName: '医疗'},
+  {id: createId(), enName: 'medicals', chName: '医疗'},
   {id: createId(), enName: 'traffic', chName: '交通'},
 ];
 
