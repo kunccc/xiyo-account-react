@@ -64,6 +64,7 @@ const Money: React.FC = () => {
   const [tags, setTags] = React.useState(tagsSourceForPay);
   const selectTab = (selectedTab: string) => {
     setTags(selectedTab === 'pay' ? tagsSourceForPay : tagsSourceForIncome);
+    setSelectedTagId(0);
   };
   const [selectedTagId, setSelectedTagId] = React.useState(0);
   const selectTag = (tagId: number) => {

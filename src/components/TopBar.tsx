@@ -31,7 +31,9 @@ const TopBar: React.FC<Props> = (props) => {
   type Keys = keyof typeof tabMap
   const [tabs] = React.useState<Keys[]>(['pay', 'income']);
   const [selectedTab, setSelectedTab] = React.useState('pay');
-  React.useEffect(() => {props.selectTab(selectedTab);}, [props, selectedTab]);
+  const {selectTab} = props;
+  // eslint-disable-next-line
+  React.useEffect(() => {selectTab(selectedTab);}, [selectedTab]);
   return (
     <TopBarWrapper>
       {tabs.map(type =>
