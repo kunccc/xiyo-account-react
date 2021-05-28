@@ -1,8 +1,10 @@
 import Layout from 'components/Layout';
-import Icon from '../components/Icon';
+import Icon from 'components/Icon';
 import styled from 'styled-components';
-import React from 'react';
+import React, {useState} from 'react';
 import {useTags} from 'lib/useTags';
+import Note from 'components/Note';
+import Mask from 'components/Mask';
 import 'styles/IconResetForMoney.scss';
 
 const LabelList = styled.div`
@@ -62,18 +64,59 @@ const Button = styled.button`
   border: none;
   border-radius: 14px;
 `;
+const Tip = styled.div`
+  color: #ff8f78;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  &.triggered {
+    animation: arise 1.2s ease both;
+  }
+  @keyframes arise {
+    0% {
+      transform: translate(-50%, 15px);
+      opacity: 0;
+    }
+    35% {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+    65% {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -15px);
+      opacity: 0;
+    }
+  }
+`;
 
 const Money: React.FC = () => {
   const {tagsSourceForPay, tagsSourceForIncome} = useTags();
-  const [tags, setTags] = React.useState(tagsSourceForPay);
+  const [tags, setTags] = useState(tagsSourceForPay);
   const selectTab = (selectedTab: string) => {
     setTags(selectedTab === 'pay' ? tagsSourceForPay : tagsSourceForIncome);
     setSelectedTagId(0);
   };
-  const [selectedTagId, setSelectedTagId] = React.useState(0);
+  const [selectedTagId, setSelectedTagId] = useState(0);
   const selectTag = (tagId: number) => {
     setSelectedTagId(tagId === selectedTagId ? 0 : tagId);
   };
+  const [isTriggered, setTriggered] = useState(false);
+  const makeANote = () => {
+    if (selectedTagId === 0) {
+      setTriggered(true);
+      setTimeout(() => {setTriggered(false);}, 1200);
+      return;
+    }
+    setNoteVisible(true);
+    setMaskVisible(true);
+  };
+  const [isNoteVisible, setNoteVisible] = useState(false);
+  const [isMaskVisible, setMaskVisible] = useState(false);
   return (
     <Layout selectTab={selectTab}>
       <LabelList>
@@ -84,7 +127,10 @@ const Money: React.FC = () => {
           )}
         </ul>
       </LabelList>
-      <Button>记一笔</Button>
+      <Button onClick={() => makeANote()} disabled={isTriggered}>记一笔</Button>
+      <Tip className={isTriggered ? 'triggered' : ''}>您未选择标签！</Tip>
+      <Note isNoteVisible={isNoteVisible} setNoteVisible={setNoteVisible} setMaskVisible={setMaskVisible}/>
+      <Mask isMaskVisible={isMaskVisible}/>
     </Layout>
   );
 };
