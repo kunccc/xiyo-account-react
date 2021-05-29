@@ -1,5 +1,5 @@
 import Layout from 'components/Layout';
-import React from 'react';
+import React, {useState} from 'react';
 import {useTags} from 'lib/useTags';
 import Icon from 'components/Icon';
 import styled from 'styled-components';
@@ -20,14 +20,18 @@ const Ol = styled.ol`
         margin-right: 8px;
       }
     }
+    .action {
+      display: flex;
+      align-items: center;
+    }
   }
 `;
 
 const Labels: React.FC = () => {
-  const {tagsSourceForPay, tagsSourceForIncome} = useTags();
-  const [tags, setTags] = React.useState(tagsSourceForPay);
+  const {payTags, incomeTags, deleteTag} = useTags();
+  const [tags, setTags] = useState(payTags);
   const selectTab = (selectedTab: string) => {
-    setTags(selectedTab === 'pay' ? tagsSourceForPay : tagsSourceForIncome);
+    setTags(selectedTab === 'pay' ? payTags : incomeTags);
   };
   return (
     <Layout selectTab={selectTab}>
@@ -35,7 +39,8 @@ const Labels: React.FC = () => {
         {tags.map(tag =>
           <li key={tag.id}>
             <div className="tag"><Icon name={tag.enName}/>{tag.chName}</div>
-            <Icon name="rubbish"/></li>
+            <div className="action" onClick={() => deleteTag(tag.id, tag.type)}><Icon name="rubbish"/></div>
+          </li>
         )}
         <li>添加新标签<Icon name="add"/></li>
       </Ol>

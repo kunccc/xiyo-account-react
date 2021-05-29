@@ -95,10 +95,10 @@ const Tip = styled.div`
 `;
 
 const Money: React.FC = () => {
-  const {tagsSourceForPay, tagsSourceForIncome} = useTags();
-  const [tags, setTags] = useState(tagsSourceForPay);
+  const {payTags, incomeTags} = useTags();
+  const [tags, setTags] = useState(payTags);
   const selectTab = (selectedTab: string) => {
-    setTags(selectedTab === 'pay' ? tagsSourceForPay : tagsSourceForIncome);
+    setTags(selectedTab === 'pay' ? payTags : incomeTags);
     setSelectedTagId(0);
   };
   const [selectedTagId, setSelectedTagId] = useState(0);
