@@ -95,12 +95,9 @@ const Tip = styled.div`
 `;
 
 const Money: React.FC = () => {
-  const {payTags, incomeTags} = useTags();
-  const [tags, setTags] = useState(payTags);
-  const selectTab = (selectedTab: string) => {
-    setTags(selectedTab === 'pay' ? payTags : incomeTags);
-    setSelectedTagId(0);
-  };
+  const {tags} = useTags();
+  console.log('fuck');
+  console.log(tags);
   const [selectedTagId, setSelectedTagId] = useState(0);
   const selectTag = (tagId: number) => {
     setSelectedTagId(tagId === selectedTagId ? 0 : tagId);
@@ -118,7 +115,7 @@ const Money: React.FC = () => {
   const [isNoteVisible, setNoteVisible] = useState(false);
   const [isMaskVisible, setMaskVisible] = useState(false);
   return (
-    <Layout selectTab={selectTab}>
+    <Layout>
       <LabelList>
         <ul>
           {tags.map(tag =>

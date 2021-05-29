@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, {useState} from 'react';
+import {useTags} from 'lib/useTags';
 
 const TopBarWrapper = styled.div`
   height: 42px;
@@ -22,18 +23,11 @@ const TopBarWrapper = styled.div`
   }
 `;
 
-type Props = {
-  selectTab: (key: string) => void
-}
-
-const TopBar: React.FC<Props> = (props) => {
+const TopBar: React.FC = () => {
+  const {selectedTab, setSelectedTab} = useTags();
   const tabMap = {pay: '支出', income: '收入'};
   type Keys = keyof typeof tabMap
-  const [tabs] = React.useState<Keys[]>(['pay', 'income']);
-  const [selectedTab, setSelectedTab] = React.useState('pay');
-  const {selectTab} = props;
-  // eslint-disable-next-line
-  React.useEffect(() => {selectTab(selectedTab);}, [selectedTab]);
+  const [tabs] = useState<Keys[]>(['pay', 'income']);
   return (
     <TopBarWrapper>
       {tabs.map(type =>

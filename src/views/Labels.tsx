@@ -1,5 +1,5 @@
 import Layout from 'components/Layout';
-import React, {useState} from 'react';
+import React from 'react';
 import {useTags} from 'lib/useTags';
 import Icon from 'components/Icon';
 import styled from 'styled-components';
@@ -28,13 +28,9 @@ const Ol = styled.ol`
 `;
 
 const Labels: React.FC = () => {
-  const {payTags, incomeTags, deleteTag} = useTags();
-  const [tags, setTags] = useState(payTags);
-  const selectTab = (selectedTab: string) => {
-    setTags(selectedTab === 'pay' ? payTags : incomeTags);
-  };
+  const {tags, deleteTag} = useTags();
   return (
-    <Layout selectTab={selectTab}>
+    <Layout>
       <Ol>
         {tags.map(tag =>
           <li key={tag.id}>

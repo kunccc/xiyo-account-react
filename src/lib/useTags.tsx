@@ -13,18 +13,19 @@ const tagsSource = [
   {id: createId(), enName: 'sideline', chName: '副业', type: 'income'},
   {id: createId(), enName: 'investment', chName: '投资', type: 'income'},
 ];
-const tagsSourceForPay = tagsSource.filter(tag => tag.type === 'pay');
-const tagsSourceForIncome = tagsSource.filter(tag => tag.type === 'income');
 
 const useTags = () => {
-  const [payTags, setPayTags] = useState(tagsSourceForPay);
-  const [incomeTags, setIncomeTags] = useState(tagsSourceForIncome);
+  const [selectedTab, setSelectedTab] = useState('pay');
+  const [payTags, setPayTags] = useState(tagsSource.filter(tag => tag.type === 'pay'));
+  const [incomeTags, setIncomeTags] = useState(tagsSource.filter(tag => tag.type === 'income'));
+  const tags = selectedTab === 'pay' ? payTags : incomeTags;
+  console.log(tags);
   const deleteTag = (tagId: number, tagType: string) => {
     tagType === 'pay'
-      ? setPayTags(tagsSourceForPay.filter(tag => tag.id !== tagId))
-      : setIncomeTags(tagsSourceForIncome.filter(tag => tag.id !== tagId));
+      ? setPayTags(payTags.filter(tag => tag.id !== tagId))
+      : setIncomeTags(incomeTags.filter(tag => tag.id !== tagId));
   };
-  return {payTags, incomeTags, deleteTag};
+  return {tags, selectedTab, setSelectedTab, deleteTag};
 };
 
 export {useTags};

@@ -13,14 +13,10 @@ const Main = styled.div`
   position: relative;
 `;
 
-type Props = {
-  children: {}, selectTab: (key: string) => void
-}
-
-const Layout = (props: Props) => {
+const Layout = (props: {children: {}}) => {
   return (
     <Wrapper>
-      <TopBar selectTab={props.selectTab}/>
+      <TopBar/>
       <Main>
         {props.children}
       </Main>
