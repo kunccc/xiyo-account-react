@@ -20,10 +20,6 @@ const Ol = styled.ol`
         margin-right: 8px;
       }
     }
-    .action {
-      display: flex;
-      align-items: center;
-    }
   }
 `;
 
@@ -35,7 +31,7 @@ const Labels: React.FC = () => {
         {tags.map(tag =>
           <li key={tag.id}>
             <div className="tag"><Icon name={tag.enName}/>{tag.chName}</div>
-            <div className="action" onClick={() => deleteTag(tag.id, tag.type)}><Icon name="rubbish"/></div>
+            <Icon name="rubbish" onClick={() => deleteTag(tag.id, tag.type)}/>
           </li>
         )}
         <li>添加新标签<Icon name="add"/></li>

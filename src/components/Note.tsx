@@ -81,7 +81,7 @@ const Note: React.FC<Props> = (props) => {
   return (
     <NoteWrapper className={props.isNoteVisible ? 'visible' : ''}>
       <div className="title">
-        <div onClick={() => back()}><Icon name="back"/></div>
+        <Icon name="back" onClick={() => back()}/>
         记一笔
       </div>
       <div className="datePicker">日期选择器</div>

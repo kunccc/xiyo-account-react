@@ -1,5 +1,5 @@
 import {createId} from './createId';
-import {useState} from 'react';
+import React, {useState} from 'react';
 
 const tagsSource = [
   {id: createId(), enName: 'eat', chName: '饮食', type: 'pay'},
@@ -19,7 +19,6 @@ const useTags = () => {
   const [payTags, setPayTags] = useState(tagsSource.filter(tag => tag.type === 'pay'));
   const [incomeTags, setIncomeTags] = useState(tagsSource.filter(tag => tag.type === 'income'));
   const tags = selectedTab === 'pay' ? payTags : incomeTags;
-  console.log(tags);
   const deleteTag = (tagId: number, tagType: string) => {
     tagType === 'pay'
       ? setPayTags(payTags.filter(tag => tag.id !== tagId))
