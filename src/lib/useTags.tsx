@@ -1,5 +1,5 @@
 import {createId} from './createId';
-import React, {useState} from 'react';
+import {useState} from 'react';
 
 const tagsSource = [
   {id: createId(), enName: 'eat', chName: '饮食', type: 'pay'},

@@ -8,19 +8,11 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/labels">
-          <Labels/>
-        </Route>
-        <Route path="/money">
-          <Money/>
-        </Route>
-        <Route path="/statistic">
-          <Statistic/>
-        </Route>
+        <Route path="/labels" component={Labels}/>
+        <Route path="/money" component={Money}/>
+        <Route path="/statistic" component={Statistic}/>
         <Redirect exact from="/" to="/money"/>
-        <Route path="*">
-          <NoMatch/>
-        </Route>
+        <Route path="*" component={NoMatch}/>
       </Switch>
     </Router>
   );
