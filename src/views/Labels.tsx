@@ -1,6 +1,5 @@
 import Layout from 'components/Layout';
 import React from 'react';
-import {useTags} from 'lib/useTags';
 import Icon from 'components/Icon';
 import styled from 'styled-components';
 import 'styles/IconResetForLabels.scss';
@@ -24,17 +23,16 @@ const Ol = styled.ol`
 `;
 
 const Labels: React.FC = () => {
-  const {tags, deleteTag} = useTags();
   return (
     <Layout>
       <Ol>
-        {tags.map(tag =>
-          <li key={tag.id}>
-            <div className="tag"><Icon name={tag.enName}/>{tag.chName}</div>
-            <Icon name="rubbish" onClick={() => deleteTag(tag.id, tag.type)}/>
-          </li>
-        )}
-        <li>添加新标签<Icon name="add"/></li>
+        {/*{tags.map(tag =>*/}
+        {/*  <li key={tag.id}>*/}
+        {/*    <div className="tag"><Icon name={tag.enName}/>{tag.chName}</div>*/}
+        {/*    <Icon name="rubbish" onClick={() => deleteTag(tag.id, tag.type)}/>*/}
+        {/*  </li>*/}
+        {/*)}*/}
+        {/*<li>添加新标签<Icon name="add"/></li>*/}
       </Ol>
     </Layout>
   );

@@ -2,7 +2,6 @@ import Layout from 'components/Layout';
 import Icon from 'components/Icon';
 import styled from 'styled-components';
 import React, {useState} from 'react';
-import {useTags} from 'lib/useTags';
 import Note from 'components/Note';
 import Mask from 'components/Mask';
 import 'styles/IconResetForMoney.scss';
@@ -95,8 +94,10 @@ const Tip = styled.div`
   }
 `;
 
-const Money: React.FC = () => {
-  const {tags} = useTags();
+type Props = {
+  tags: { id: number, enName: string, chName: string }[]
+}
+const Money: React.FC<Props> = (props) => {
   const [selectedTagId, setSelectedTagId] = useState(0);
   const selectTag = (tagId: number) => {
     setSelectedTagId(tagId === selectedTagId ? 0 : tagId);
@@ -117,7 +118,7 @@ const Money: React.FC = () => {
     <Layout>
       <LabelList>
         <ul>
-          {tags.map(tag =>
+          {props.tags.map(tag =>
             <li onClick={() => selectTag(tag.id)} className={selectedTagId === tag.id ? 'selected' : ''}
                 key={tag.id}><Icon name={tag.enName}/>{tag.chName}</li>
           )}
@@ -131,9 +132,12 @@ const Money: React.FC = () => {
   );
 };
 
-const mapStateToProps = (state: {}) => {
-  console.log(state);
-  return state;
+type State = {
+  tab: { selectedTab: string },
+  tagSource: { payTags: [], incomeTags: [] }
+}
+const mapStateToProps = (state: State) => {
+  return state.tab.selectedTab === 'pay' ? {tags: state.tagSource.payTags} : {tags: state.tagSource.incomeTags};
 };
 
 export default connect(mapStateToProps)(Money);

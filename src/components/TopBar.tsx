@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import React, {useState} from 'react';
-import {useTags} from 'lib/useTags';
+import React from 'react';
+import {connect} from 'react-redux';
 
 const TopBarWrapper = styled.div`
   height: 42px;
@@ -23,19 +23,40 @@ const TopBarWrapper = styled.div`
   }
 `;
 
-const TopBar: React.FC = () => {
-  const {selectedTab, setSelectedTab} = useTags();
-  const tabMap = {pay: '支出', income: '收入'};
-  type Keys = keyof typeof tabMap
-  const [tabs] = useState<Keys[]>(['pay', 'income']);
+type Props = {
+  tabs: { pay: string, income: string },
+  selectedTab: string,
+  switchToPay: () => void,
+  switchToIncome: () => void
+}
+const TopBar: React.FC<Props> = (props) => {
+  const {tabs, selectedTab, switchToPay, switchToIncome} = props;
+  type Keys = keyof typeof tabs
+  const tabMap: Keys[] = ['pay', 'income'];
+  const onSwitch = (tab: string) => {
+    tab === 'pay' ? switchToPay() : switchToIncome();
+  };
   return (
     <TopBarWrapper>
-      {tabs.map(type =>
-        <button className={selectedTab === type ? 'selected' : ''} onClick={() => setSelectedTab(type)}
-                key={type}>{tabMap[type]}</button>
+      {tabMap.map(tab =>
+        <button key={tab} className={selectedTab === tab ? 'selected' : ''}
+                onClick={() => onSwitch(tab)}>{tabs[tab]}</button>
       )}
     </TopBarWrapper>
   );
 };
 
-export default TopBar;
+type State = {
+  tab: {
+    tabs: { pay: string, income: string },
+    selectedTab: string
+  }
+}
+const mapStateToProps = (state: State) => state.tab;
+const mapDispatchToProps = (dispatch: Function) => {
+  return {
+    switchToPay: () => dispatch({type: 'switch_pay'}),
+    switchToIncome: () => dispatch({type: 'switch_income'})
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TopBar);

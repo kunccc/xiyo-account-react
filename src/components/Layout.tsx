@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import Nav from './Nav';
 import TopBar from './TopBar';
-import {Provider} from 'react-redux';
-import store from '../store/store';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -17,15 +15,13 @@ const Main = styled.div`
 
 const Layout = (props: {children: {}}) => {
   return (
-    <Provider store={store}>
-      <Wrapper>
-        <TopBar/>
-        <Main>
-          {props.children}
-        </Main>
-        <Nav/>
-      </Wrapper>
-    </Provider>
+    <Wrapper>
+      <TopBar/>
+      <Main>
+        {props.children}
+      </Main>
+      <Nav/>
+    </Wrapper>
   );
 };
 
