@@ -6,6 +6,7 @@ import 'styles/IconResetForLabels.scss';
 import {connect} from 'react-redux';
 import Confirm from '../components/Confirm';
 import Mask from '../components/Mask';
+import AddLabel from '../components/AddLabel';
 
 const Ol = styled.ol`
   li {
@@ -30,8 +31,10 @@ type Props = {
   deleteTag: (tagId: number, tagType: string) => void
 }
 let tagIdClone: number, tagTypeClone: string, tagNameClone: string;
+
 const Labels: React.FC<Props> = props => {
   const [isConfirmVisible, setConfirmVisible] = useState(false);
+  const [isAddLabelVisible, setAddLabelVisible] = useState(false);
   const setDeletedItem = (tag: { id: number, type: string, chName: string }) => {
     tagIdClone = tag.id;
     tagTypeClone = tag.type;
@@ -44,6 +47,10 @@ const Labels: React.FC<Props> = props => {
     setConfirmVisible(false);
     setMaskVisible(false);
   };
+  const addLabel = () => {
+    setAddLabelVisible(true);
+    setMaskVisible(true);
+  };
   const [isMaskVisible, setMaskVisible] = useState(false);
   return (
     <Layout>
@@ -54,10 +61,11 @@ const Labels: React.FC<Props> = props => {
             <Icon name="rubbish" onClick={() => setDeletedItem(tag)}/>
           </li>
         )}
-        <li>添加新标签<Icon name="add"/></li>
+        <li>添加新标签<Icon name="add" onClick={addLabel}/></li>
       </Ol>
       <Confirm isConfirmVisible={isConfirmVisible} setConfirmVisible={setConfirmVisible} confirmDelete={confirmDelete}
                tagName={tagNameClone}/>
+      <AddLabel isAddLabelVisible={isAddLabelVisible} setAddLabelVisible={setAddLabelVisible}/>
       <Mask isMaskVisible={isMaskVisible}/>
     </Layout>
   );

@@ -12,7 +12,6 @@ const NoteWrapper = styled.div`
   transform: translateX(-50%);
   background: #fff;
   border-radius: 10px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,7 +25,7 @@ const NoteWrapper = styled.div`
   }
   .title {
     text-align: center;
-    margin-bottom: 20px;
+    margin: 20px;
     .icon {
       position: absolute;
       top: 15px;
