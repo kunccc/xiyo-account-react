@@ -1,9 +1,11 @@
 import Layout from 'components/Layout';
-import React from 'react';
+import React, {useState} from 'react';
 import Icon from 'components/Icon';
 import styled from 'styled-components';
 import 'styles/IconResetForLabels.scss';
 import {connect} from 'react-redux';
+import Confirm from '../components/Confirm';
+import Mask from '../components/Mask';
 
 const Ol = styled.ol`
   li {
@@ -27,18 +29,36 @@ type Props = {
   tags: { id: number, enName: string, chName: string, type: string }[],
   deleteTag: (tagId: number, tagType: string) => void
 }
+let tagIdClone: number, tagTypeClone: string, tagNameClone: string;
 const Labels: React.FC<Props> = props => {
+  const [isConfirmVisible, setConfirmVisible] = useState(false);
+  const setDeletedItem = (tag: { id: number, type: string, chName: string }) => {
+    tagIdClone = tag.id;
+    tagTypeClone = tag.type;
+    tagNameClone = tag.chName;
+    setConfirmVisible(true);
+    setMaskVisible(true);
+  };
+  const confirmDelete = (isDelete: boolean) => {
+    if (isDelete) props.deleteTag(tagIdClone, tagTypeClone);
+    setConfirmVisible(false);
+    setMaskVisible(false);
+  };
+  const [isMaskVisible, setMaskVisible] = useState(false);
   return (
     <Layout>
       <Ol>
         {props.tags.map(tag =>
           <li key={tag.id}>
             <div className="tag"><Icon name={tag.enName}/>{tag.chName}</div>
-            <Icon name="rubbish" onClick={() => props.deleteTag(tag.id, tag.type)}/>
+            <Icon name="rubbish" onClick={() => setDeletedItem(tag)}/>
           </li>
         )}
         <li>添加新标签<Icon name="add"/></li>
       </Ol>
+      <Confirm isConfirmVisible={isConfirmVisible} setConfirmVisible={setConfirmVisible} confirmDelete={confirmDelete}
+               tagName={tagNameClone}/>
+      <Mask isMaskVisible={isMaskVisible}/>
     </Layout>
   );
 };
