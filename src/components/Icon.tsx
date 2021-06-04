@@ -8,8 +8,9 @@ type Props = {
 } & React.SVGAttributes<SVGElement>
 
 const Icon = (props: Props) => {
+  const {name, children, className, ...rest} = props;
   return (
-    <svg className="icon" id={'c' + props.name}>
+    <svg className={`icon ${className ? className : ''}`} id={'c' + props.name} {...rest}>
       <use xlinkHref={'#' + props.name}/>
     </svg>
   );

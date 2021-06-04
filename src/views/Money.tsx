@@ -134,10 +134,10 @@ const Money: React.FC<Props> = (props) => {
 
 type State = {
   tab: { selectedTab: string },
-  tagSource: { payTags: [], incomeTags: [] }
+  tagsSource: { payTags: [], incomeTags: [] }
 }
 const mapStateToProps = (state: State) => {
-  return state.tab.selectedTab === 'pay' ? {tags: state.tagSource.payTags} : {tags: state.tagSource.incomeTags};
+  return state.tab.selectedTab === 'pay' ? {tags: state.tagsSource.payTags} : {tags: state.tagsSource.incomeTags};
 };
 
 export default connect(mapStateToProps)(Money);
