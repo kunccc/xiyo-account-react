@@ -6,6 +6,7 @@ import {useTags} from 'lib/useTags';
 import Note from 'components/Note';
 import Mask from 'components/Mask';
 import 'styles/IconResetForMoney.scss';
+import {connect} from 'react-redux';
 
 const LabelList = styled.div`
   max-height: 65vh;
@@ -96,8 +97,6 @@ const Tip = styled.div`
 
 const Money: React.FC = () => {
   const {tags} = useTags();
-  console.log('fuck');
-  console.log(tags);
   const [selectedTagId, setSelectedTagId] = useState(0);
   const selectTag = (tagId: number) => {
     setSelectedTagId(tagId === selectedTagId ? 0 : tagId);
@@ -132,4 +131,9 @@ const Money: React.FC = () => {
   );
 };
 
-export default Money;
+const mapStateToProps = (state: {}) => {
+  console.log(state);
+  return state;
+};
+
+export default connect(mapStateToProps)(Money);
