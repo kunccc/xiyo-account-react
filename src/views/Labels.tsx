@@ -25,6 +25,35 @@ const Ol = styled.ol`
     }
   }
 `;
+const P = styled.p`
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ff8f78;
+  opacity: 0;
+  &.visible {
+    animation: arise 1.2s ease both;
+  }
+  @keyframes arise {
+    0% {
+      transform: translate(-50%, 12px);
+      opacity: 0;
+    }
+    35% {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+    65% {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -12px);
+      opacity: 0;
+    }
+  }
+`;
 
 interface Props {
   tags: { id: number, enName: string, chName: string, type: string }[],
@@ -36,6 +65,7 @@ const Labels: React.FC<Props> = props => {
   const [isConfirmVisible, setConfirmVisible] = useState(false);
   const [isAddLabelVisible, setAddLabelVisible] = useState(false);
   const [isMaskVisible, setMaskVisible] = useState(false);
+  const [isTipVisible, setTipVisible] = useState(false);
   const setDeletedItem = (tag: { id: number, type: string, chName: string }) => {
     tagIdClone = tag.id;
     tagTypeClone = tag.type;
@@ -66,8 +96,9 @@ const Labels: React.FC<Props> = props => {
       <Confirm isConfirmVisible={isConfirmVisible} setConfirmVisible={setConfirmVisible} confirmDelete={confirmDelete}
                tagName={tagNameClone}/>
       <AddLabel isAddLabelVisible={isAddLabelVisible} setAddLabelVisible={setAddLabelVisible}
-                setMaskVisible={setMaskVisible}/>
+                setMaskVisible={setMaskVisible} setTipVisible={setTipVisible}/>
       <Mask isMaskVisible={isMaskVisible}/>
+      <P className={isTipVisible ? 'visible' : ''}>添加标签成功！</P>
     </Layout>
   );
 };

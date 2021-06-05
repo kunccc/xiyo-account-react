@@ -34,7 +34,7 @@ const AddLabelWrapper = styled.div`
     white-space: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 5px;
+    padding: 5px 0;
     .icon {
       margin: 0 5px;
       transition: all 250ms;
@@ -66,6 +66,38 @@ const AddLabelWrapper = styled.div`
       border-radius: 50px;
     }
   }
+  p {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ff8f78;
+    font-size: 13px;
+    z-index: -1;
+    white-space: nowrap;
+    opacity: 0;
+    &.visible {
+      animation: arise 1.2s ease both;
+    }
+    @keyframes arise {
+      0% {
+        transform: translate(-50%, 10px);
+        opacity: 0;
+      }
+      35% {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+      65% {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -10px);
+        opacity: 0;
+      }
+    }
+  }
 `;
 
 interface Props {
@@ -74,12 +106,15 @@ interface Props {
   isAddLabelVisible: boolean,
   setAddLabelVisible: (key: boolean) => void,
   setMaskVisible: (key: boolean) => void,
-  addLabel: (tagId: number, tagName: string, tagType: string) => void
+  addLabel: (tagId: number, tagName: string, tagType: string) => void,
+  setTipVisible: (key: boolean) => void
 }
 
 const AddLabel: React.FC<Props> = props => {
   const [selectedTagId, setSelectedTagId] = useState(0);
   const [name, setName] = useState('');
+  const [isTip1Visible, setTip1Visible] = useState(false);
+  const [isTip2Visible, setTip2Visible] = useState(false);
   const regress = () => {
     props.setAddLabelVisible(false);
     props.setMaskVisible(false);
@@ -90,7 +125,8 @@ const AddLabel: React.FC<Props> = props => {
   };
   const confirm = () => {
     if (!selectedTagId || !name) {
-      console.log('请选择标签并输入名称');
+      setTip1Visible(true);
+      setTimeout(() => setTip1Visible(false), 1200);
       return;
     }
     let nameLength = 0;
@@ -104,11 +140,14 @@ const AddLabel: React.FC<Props> = props => {
       }
     }
     if (nameLength > 8) {
-      console.log('名称最长8个字符');
+      setTip2Visible(true);
+      setTimeout(() => setTip2Visible(false), 1200);
       return;
     }
     props.addLabel(selectedTagId, name, props.tab.selectedTab);
     regress();
+    props.setTipVisible(true);
+    setTimeout(() => props.setTipVisible(false), 1200);
   };
   return (
     <AddLabelWrapper className={props.isAddLabelVisible ? 'visible' : ''}>
@@ -126,8 +165,10 @@ const AddLabel: React.FC<Props> = props => {
       </div>
       <div className="actions">
         <button onClick={regress}>取消</button>
-        <button onClick={confirm}>确定</button>
+        <button onClick={confirm} disabled={isTip1Visible || isTip2Visible}>确定</button>
       </div>
+      <p className={isTip1Visible ? 'visible' : ''}>请选择标签并输入名称</p>
+      <p className={isTip2Visible ? 'visible' : ''}>名称超出长度限制</p>
     </AddLabelWrapper>
   );
 };
