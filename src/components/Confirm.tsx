@@ -12,10 +12,11 @@ const ConfirmWrapper = styled.div`
   transform: translateX(-50%);
   border-radius: 10px;
   text-align: center;
+  z-index: -1;
   opacity: 0;
-  z-index: 2;
   transition: all 250ms;
   &.visible {
+    z-index: 10;
     opacity: 1;
     transform: translate(-50%, 10px);
   }
@@ -34,7 +35,7 @@ const ConfirmWrapper = styled.div`
   }
 `;
 
-type Props = {
+interface Props {
   isConfirmVisible: boolean,
   setConfirmVisible: (key: boolean) => void,
   confirmDelete: (key: boolean) => void,

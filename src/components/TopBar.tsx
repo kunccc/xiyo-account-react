@@ -23,12 +23,13 @@ const TopBarWrapper = styled.div`
   }
 `;
 
-type Props = {
+interface Props {
   tabs: { pay: string, income: string },
   selectedTab: string,
   switchToPay: () => void,
   switchToIncome: () => void
 }
+
 const TopBar: React.FC<Props> = (props) => {
   const {tabs, selectedTab, switchToPay, switchToIncome} = props;
   type Keys = keyof typeof tabs
@@ -46,7 +47,7 @@ const TopBar: React.FC<Props> = (props) => {
   );
 };
 
-type State = {
+interface State {
   tab: {
     tabs: { pay: string, income: string },
     selectedTab: string

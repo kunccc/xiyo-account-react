@@ -94,9 +94,10 @@ const Tip = styled.div`
   }
 `;
 
-type Props = {
+interface Props {
   tags: { id: number, enName: string, chName: string }[]
 }
+
 const Money: React.FC<Props> = (props) => {
   const [selectedTagId, setSelectedTagId] = useState(0);
   const selectTag = (tagId: number) => {
@@ -132,7 +133,7 @@ const Money: React.FC<Props> = (props) => {
   );
 };
 
-type State = {
+interface State {
   tab: { selectedTab: string },
   tagsSource: { payTags: [], incomeTags: [] }
 }

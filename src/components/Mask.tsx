@@ -17,7 +17,7 @@ const MaskWrapper = styled.div`
   }
 `;
 
-type Props = {
+interface Props {
   isMaskVisible: boolean;
 }
 

@@ -66,7 +66,7 @@ const NoteWrapper = styled.div`
   }
 `;
 
-type Props = {
+interface Props {
   isNoteVisible: boolean;
   setNoteVisible: (key: boolean) => void;
   setMaskVisible: (key: boolean) => void

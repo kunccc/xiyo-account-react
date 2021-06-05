@@ -26,7 +26,7 @@ const Ol = styled.ol`
   }
 `;
 
-type Props = {
+interface Props {
   tags: { id: number, enName: string, chName: string, type: string }[],
   deleteTag: (tagId: number, tagType: string) => void
 }
@@ -35,6 +35,7 @@ let tagIdClone: number, tagTypeClone: string, tagNameClone: string;
 const Labels: React.FC<Props> = props => {
   const [isConfirmVisible, setConfirmVisible] = useState(false);
   const [isAddLabelVisible, setAddLabelVisible] = useState(false);
+  const [isMaskVisible, setMaskVisible] = useState(false);
   const setDeletedItem = (tag: { id: number, type: string, chName: string }) => {
     tagIdClone = tag.id;
     tagTypeClone = tag.type;
@@ -51,7 +52,6 @@ const Labels: React.FC<Props> = props => {
     setAddLabelVisible(true);
     setMaskVisible(true);
   };
-  const [isMaskVisible, setMaskVisible] = useState(false);
   return (
     <Layout>
       <Ol>
@@ -65,13 +65,14 @@ const Labels: React.FC<Props> = props => {
       </Ol>
       <Confirm isConfirmVisible={isConfirmVisible} setConfirmVisible={setConfirmVisible} confirmDelete={confirmDelete}
                tagName={tagNameClone}/>
-      <AddLabel isAddLabelVisible={isAddLabelVisible} setAddLabelVisible={setAddLabelVisible}/>
+      <AddLabel isAddLabelVisible={isAddLabelVisible} setAddLabelVisible={setAddLabelVisible}
+                setMaskVisible={setMaskVisible}/>
       <Mask isMaskVisible={isMaskVisible}/>
     </Layout>
   );
 };
 
-type State = {
+interface State {
   tab: { selectedTab: string },
   tagsSource: { payTags: [], incomeTags: [] }
 }
