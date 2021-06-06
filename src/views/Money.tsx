@@ -1,7 +1,7 @@
 import Layout from 'components/Layout';
 import Icon from 'components/Icon';
 import styled from 'styled-components';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Note from 'components/Note';
 import Mask from 'components/Mask';
 import 'styles/IconResetForMoney.scss';
@@ -64,57 +64,61 @@ const Button = styled.button`
   border: none;
   border-radius: 14px;
 `;
-const Tip = styled.div`
-  color: #ff8f78;
+const P = styled.div`
   position: absolute;
-  top: 45%;
+  top: 37%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-45%);
+  color: #ff8f78;
+  font-size: 13px;
+  z-index: -1;
   opacity: 0;
-  &.triggered {
+  white-space: nowrap;
+  &.visible {
     animation: arise 1.2s ease both;
   }
   @keyframes arise {
     0% {
-      transform: translate(-50%, 15px);
+      transform: translate(-45%, 10px);
       opacity: 0;
     }
     35% {
-      transform: translate(-50%, 0);
+      transform: translate(-45%, 0);
       opacity: 1;
     }
     65% {
-      transform: translate(-50%, 0);
+      transform: translate(-45%, 0);
       opacity: 1;
     }
     100% {
-      transform: translate(-50%, -15px);
+      transform: translate(-45%, -10px);
       opacity: 0;
     }
   }
 `;
 
 interface Props {
-  tags: { id: number, enName: string, chName: string }[]
+  tags: { id: number, enName: string, chName: string }[],
+  selectedTab: string
 }
 
 const Money: React.FC<Props> = (props) => {
   const [selectedTagId, setSelectedTagId] = useState(0);
-  const selectTag = (tagId: number) => {
-    setSelectedTagId(tagId === selectedTagId ? 0 : tagId);
-  };
-  const [isTriggered, setTriggered] = useState(false);
+  const [isNoteVisible, setNoteVisible] = useState(false);
+  const [isMaskVisible, setMaskVisible] = useState(false);
+  const [isTip1Visible, setTip1Visible] = useState(false);
+  const [isTip2Visible, setTip2Visible] = useState(false);
+  const selectTag = (tagId: number) => setSelectedTagId(tagId === selectedTagId ? 0 : tagId);
   const makeANote = () => {
     if (selectedTagId === 0) {
-      setTriggered(true);
-      setTimeout(() => {setTriggered(false);}, 1200);
+      setTip1Visible(true);
+      setTimeout(() => {setTip1Visible(false);}, 1200);
       return;
     }
     setNoteVisible(true);
     setMaskVisible(true);
   };
-  const [isNoteVisible, setNoteVisible] = useState(false);
-  const [isMaskVisible, setMaskVisible] = useState(false);
+  useEffect(() => setSelectedTagId(0), [props.selectedTab]);
   return (
     <Layout>
       <LabelList>
@@ -125,10 +129,12 @@ const Money: React.FC<Props> = (props) => {
           )}
         </ul>
       </LabelList>
-      <Button onClick={() => makeANote()} disabled={isTriggered}>记一笔</Button>
-      <Tip className={isTriggered ? 'triggered' : ''}>您未选择标签！</Tip>
-      <Note isNoteVisible={isNoteVisible} setNoteVisible={setNoteVisible} setMaskVisible={setMaskVisible}/>
+      <Button onClick={() => makeANote()} disabled={isTip1Visible}>记一笔</Button>
+      <Note isNoteVisible={isNoteVisible} setNoteVisible={setNoteVisible} setMaskVisible={setMaskVisible}
+            selectedTagId={selectedTagId} setSelectedTagId={setSelectedTagId} setTip2Visible={setTip2Visible}/>
       <Mask isMaskVisible={isMaskVisible}/>
+      <P className={isTip1Visible ? 'visible' : ''}>您未选择标签！</P>
+      <P className={isTip2Visible ? 'visible' : ''}>记一笔成功！</P>
     </Layout>
   );
 };
@@ -138,7 +144,9 @@ interface State {
   tagsSource: { payTags: [], incomeTags: [] }
 }
 const mapStateToProps = (state: State) => {
-  return state.tab.selectedTab === 'pay' ? {tags: state.tagsSource.payTags} : {tags: state.tagsSource.incomeTags};
+  return state.tab.selectedTab === 'pay'
+    ? {tags: state.tagsSource.payTags, selectedTab: state.tab.selectedTab}
+    : {tags: state.tagsSource.incomeTags, selectedTab: state.tab.selectedTab};
 };
 
 export default connect(mapStateToProps)(Money);

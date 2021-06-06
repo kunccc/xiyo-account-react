@@ -45,12 +45,12 @@ const AddLabelWrapper = styled.div`
     }
   }
   .name {
-    width: 132px;
+    width: 136px;
     display: flex;
     margin: 5px;
     align-items: center;
     input {
-      width: 98px;
+      width: 102px;
       padding: 2px;
       margin-left: 5px;
       border-bottom: 1px solid #999;

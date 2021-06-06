@@ -40,36 +40,37 @@ type Payload = {
   tagName: string
 }
 export const tagReducer = (state = tagsSource, action: { type: string, payload: Payload }) => {
-  const {payload} = action;
+  if (!action.payload) return state;
+  const {tagId, tagType, tagName} = action.payload;
   switch (action.type) {
     case 'delete_tag':
-      if (payload.tagType === 'pay') {
-        const tag = state.payTags.find(item => item.id === payload.tagId);
+      if (tagType === 'pay') {
+        const tag = state.payTags.find(item => item.id === tagId);
         return {
           ...state,
           optionalTags: [...state.optionalTags, {...tag, chName: '', type: ''}],
-          payTags: state.payTags.filter(tag => tag.id !== payload.tagId)
+          payTags: state.payTags.filter(tag => tag.id !== tagId)
         };
       } else {
-        const tag = state.incomeTags.find(item => item.id === payload.tagId);
+        const tag = state.incomeTags.find(item => item.id === tagId);
         return {
           ...state,
           optionalTags: [...state.optionalTags, {...tag, chName: '', type: ''}],
-          incomeTags: state.incomeTags.filter(tag => tag.id !== payload.tagId)
+          incomeTags: state.incomeTags.filter(tag => tag.id !== tagId)
         };
       }
     case 'add_tag':
-      const tag = state.optionalTags.find(item => item.id === payload.tagId);
-      return payload.tagType === 'pay'
+      const tag = state.optionalTags.find(item => item.id === tagId);
+      return tagType === 'pay'
         ? {
           ...state,
-          payTags: [...state.payTags, {...tag, chName: payload.tagName, type: payload.tagType}],
-          optionalTags: state.optionalTags.filter(tag => tag.id !== payload.tagId)
+          payTags: [...state.payTags, {...tag, chName: tagName, type: tagType}],
+          optionalTags: state.optionalTags.filter(tag => tag.id !== tagId)
         }
         : {
           ...state,
-          incomeTags: [...state.payTags, {...tag, chName: payload.tagName, type: payload.tagType}],
-          optionalTags: state.optionalTags.filter(tag => tag.id !== payload.tagId)
+          incomeTags: [...state.payTags, {...tag, chName: tagName, type: tagType}],
+          optionalTags: state.optionalTags.filter(tag => tag.id !== tagId)
         };
     default:
       return state;
