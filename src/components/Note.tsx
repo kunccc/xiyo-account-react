@@ -112,7 +112,7 @@ interface Props {
 }
 
 const Note: React.FC<Props> = (props) => {
-  const [date, setDate] = useState(now());
+  const [date, setDate] = useState(now().fullNow);
   const [mark, setMark] = useState('');
   const [amount, setAmount] = useState('');
   const [isTip1Visible, setTip1Visible] = useState(false);
@@ -121,7 +121,7 @@ const Note: React.FC<Props> = (props) => {
     props.setNoteVisible(false);
     props.setMaskVisible(false);
     setTimeout(() => {
-      setDate(now());
+      setDate(now().fullNow);
       setMark('');
       setAmount('');
     }, 250);
