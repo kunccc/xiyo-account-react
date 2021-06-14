@@ -6,7 +6,7 @@ import {noteReducer} from './reducers/noteReducer';
 const reducer = combineReducers({
   tagsSource: tagReducer,
   tab: tabReducer,
-  note: noteReducer
+  notes: noteReducer
 });
 
 const store = createStore(reducer);

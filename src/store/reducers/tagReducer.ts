@@ -34,7 +34,7 @@ const tagsSource = {
   ]
 }
 
-type Payload = {
+interface Payload {
   tagId: number,
   tagType: string,
   tagName: string

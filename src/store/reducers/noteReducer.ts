@@ -1,4 +1,4 @@
-type Payload = {
+interface Payload {
   enName: string,
   chName: string,
   type: string,
@@ -6,14 +6,29 @@ type Payload = {
   mark: string,
   amount: number
 }
-export const noteReducer = (state = {notes: []}, action: { type: string, payload: Payload }) => {
+
+interface State {
+  notes: [{
+    date: string,
+    items: { enName: string, chName: string, mark: string, detail: string }[]
+  }]
+}
+
+export const noteReducer = (state: State | { notes: [] } = {notes: []}, action: { type: string, payload: Payload }) => {
   if (!action.payload) return state;
   const {enName, chName, type, date, mark, amount} = action.payload;
   switch (action.type) {
     case 'add_note':
-      return {
-        notes: [...state.notes, {enName, chName, type, date, mark, amount}]
-      };
+      const detail = type === 'pay' ? '-' + amount.toString() : '+' + amount.toString();
+      let stateClone = JSON.parse(JSON.stringify(state));
+      for (let note of stateClone.notes) {
+        if (note.date === date) {
+          note.items.push({enName, chName, mark, detail});
+          return stateClone;
+        }
+      }
+      stateClone.notes.push({date, items: [{enName, chName, mark, detail}]});
+      return stateClone;
     default:
       return state;
   }
