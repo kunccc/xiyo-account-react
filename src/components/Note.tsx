@@ -27,7 +27,7 @@ const NoteWrapper = styled.div`
   transition: all 250ms;
   &.visible {
     opacity: 1;
-    z-index: 10;
+    z-index: 200;
     transform: translate(-50%, 10px);
   }
   .title {

@@ -12,7 +12,7 @@ const MaskWrapper = styled.div`
   opacity: 0;
   transition: all 250ms;
   &.isMaskVisible {
-    z-index: 1;
+    z-index: 100;
     opacity: 1;
   }
 `;

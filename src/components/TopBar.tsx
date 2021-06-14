@@ -8,6 +8,7 @@ const TopBarWrapper = styled.div`
   justify-content: center;
   align-items: center;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+  z-index: 2;
   button {
     width: 98px;
     height: 25.2px;
