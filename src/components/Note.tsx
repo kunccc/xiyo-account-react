@@ -108,7 +108,8 @@ interface Props {
   setNoteVisible: (key: boolean) => void;
   setMaskVisible: (key: boolean) => void;
   setTip2Visible: (key: boolean) => void;
-  addNote: (tagId: number, date: string, mark: string, amount: number) => void
+  addNote: (enName: string, chName: string, type: string, date: string, mark: string, amount: number) => void;
+  tagsSource: { payTags: {id: number, enName: string, chName: string, type: string}[], incomeTags: {id: number, enName: string, chName: string, type: string}[] }
 }
 
 const Note: React.FC<Props> = (props) => {
@@ -134,7 +135,9 @@ const Note: React.FC<Props> = (props) => {
       setTip2Visible(true);
       setTimeout(() => setTip2Visible(false), 1200);
     } else {
-      props.addNote(props.selectedTagId, date, mark, parseInt(amount));
+      const tags = props.tagsSource.payTags.concat(props.tagsSource.incomeTags)
+      const tag = tags.find(tag => tag.id === props.selectedTagId)
+      props.addNote(tag!.enName, tag!.chName, tag!.type, date, mark, parseInt(amount));
       props.setSelectedTagId(0);
       props.setTip2Visible(true);
       setTimeout(() => props.setTip2Visible(false), 1200);
@@ -164,12 +167,17 @@ const Note: React.FC<Props> = (props) => {
   );
 };
 
+interface State {
+  tagsSource: { payTags: [], incomeTags: [] }
+}
+
+const mapStateToProps = (state: State) => state;
 const mapDispatchToProps = (dispatch: Function) => {
   return {
-    addNote: (tagId: number, date: string, mark: string, amount: number) => dispatch({
+    addNote: (enName: string, chName: string, type: string, date: string, mark: string, amount: number) => dispatch({
       type: 'add_note',
-      payload: {tagId, date, mark, amount}
+      payload: {enName, chName, type, date, mark, amount}
     })
   };
 };
-export default connect(null, mapDispatchToProps)(Note);
+export default connect(mapStateToProps, mapDispatchToProps)(Note);

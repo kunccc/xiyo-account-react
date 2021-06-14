@@ -17,11 +17,15 @@ const StatisticWrapper = styled.div`
     height: 28px;
   }
   .chart {
-    width: 200px;
-    height: 200px;
-    border: 1px solid #ff8f78;
-    border-radius: 50%;
-    margin-top: 60px;
+    height: 100vh;
+    border: 1px solid red;
+    .circle {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #ff8f78;
+      border-radius: 50%;
+      margin-top: 60px;
+    }
   }
 `;
 
@@ -32,7 +36,9 @@ const Statistic: React.FC = () => {
       <StatisticWrapper>
         <DatePicker onChange={(_: any, time: string) => setDate(time)} picker="month" locale={locale} allowClear={false}
                     inputReadOnly defaultValue={Moment(Date.now())}/>
-        <div className="chart"/>
+        <div className="chart">
+          <div className="circle"/>
+        </div>
       </StatisticWrapper>
     </Layout>
   );
