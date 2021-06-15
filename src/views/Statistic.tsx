@@ -15,7 +15,7 @@ const StatisticWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   .datepicker {
-    padding: 20px 0;
+    padding: 15px 0;
     position: fixed;
     width: 100%;
     text-align: center;
@@ -26,53 +26,75 @@ const StatisticWrapper = styled.div`
       height: 28px;
     }
   }
-  > li {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-    overflow: auto;
-    > ol {
-      .date {
-        background: #e9e9e9;
-        font-size: 12px;
-        padding: 3px 5px;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-      }
-      > li {
-        > ul {
-          display: flex;
-          padding: 10px;
-          align-items: center;
-          justify-content: space-between;
-          border-bottom: 1px solid #ddd;
-          > div {
+  .page {
+    height: calc(100vh - 148px);
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    margin-top: 60px;
+    &.noData {
+      overflow: hidden;
+    }
+    > li {
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      height: calc(100vh - 148px);
+      > ol {
+        .date {
+          background: #e9e9e9;
+          font-size: 12px;
+          padding: 2px 5px;
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+        > li {
+          > ul {
             display: flex;
-            align-items: flex-end;
-            > span {
-              margin-left: 4px;
-              &:last-child {
-                color: #bbb;
-                font-size: 12px;
-                margin-left: 8px;
-                max-width: calc(100vw - 160px);
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+            padding: 10px;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            > div {
+              display: flex;
+              align-items: flex-end;
+              > span {
+                margin-left: 4px;
+                &:last-child {
+                  color: #bbb;
+                  font-size: 12px;
+                  margin-left: 8px;
+                  max-width: calc(100vw - 160px);
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                }
               }
             }
-          }
-          > span {
-            color: #ff8f78;
+            > span {
+              color: #ff8f78;
+            }
           }
         }
+      }
+    }
+    .tip {
+      position: fixed;
+      top: 110px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ff8f78;
+      opacity: 0;
+      transition: all 250ms;
+      &.visible {
+        opacity: 1;
       }
     }
   }
 `;
 
 interface Props {
-  notes: { date: string, items: { enName: string, chName: string, mark: string, detail: string }[] }[]
+  notes: { date: string, items: { enName: string, chName: string, mark: string, detail: string }[] }[];
+  selectedTab: string
 }
 
 const Statistic: React.FC<Props> = props => {
@@ -84,6 +106,17 @@ const Statistic: React.FC<Props> = props => {
     if (+now().fullNow.replace(/-/g, '') - +note.date.replace(/-/g, '') === 1) return '昨天';
     return note.date;
   };
+  let data = [];
+  for (let note of currentNotes) {
+    for (let item of note.items) {
+      const tab = item.detail.slice(0, 1) === '-' ? 'pay' : 'income';
+      if (tab === props.selectedTab) {
+        data.push({value: item.detail.substr(1), name: item.chName});
+      }
+    }
+  }
+  let total = 0;
+  data.forEach(item => total += +item.value);
   return (
     <Layout>
       <StatisticWrapper>
@@ -92,28 +125,34 @@ const Statistic: React.FC<Props> = props => {
                       allowClear={false}
                       inputReadOnly defaultValue={Moment(Date.now())}/>
         </div>
-        <Chart/>
-        <li>
-          {notes.map(note =>
-            <ol key={note.date}>
-              <div className="date">{friendlyDate(note)}</div>
-              <li>
-                {note.items.map(item =>
-                  <ul key={item.enName}>
-                    <div><Icon name={item.enName}/><span>{item.chName}</span><span>{item.mark}</span></div>
-                    <span>{item.detail}</span>
-                  </ul>)}
-              </li>
-            </ol>)}
-        </li>
+        <div className={`page ${data.length < 1 ? 'noData' : ''}`}>
+          <Chart data={data} tab={props.selectedTab} total={total}/>
+          <li>
+            {notes.map(note =>
+              <ol key={note.date}>
+                <div className="date">{friendlyDate(note)}</div>
+                <li>
+                  {note.items.map(item =>
+                    <ul key={item.enName}>
+                      <div><Icon name={item.enName}/><span>{item.chName}</span><span>{item.mark}</span></div>
+                      <span>{item.detail}</span>
+                    </ul>)}
+                </li>
+              </ol>)}
+          </li>
+          <p className={`tip ${data.length < 1 ? 'visible' : ''}`}>当月暂无数据</p>
+        </div>
       </StatisticWrapper>
     </Layout>
   );
 };
 
 interface State {
-  notes: []
+  notes: { notes: [] };
+  tab: { selectedTab: string }
 }
 
-const mapStateToProps = (state: State) => state.notes;
+const mapStateToProps = (state: State) => {
+  return {...state.notes, ...state.tab};
+};
 export default connect(mapStateToProps)(Statistic);

@@ -3,63 +3,87 @@ import styled from 'styled-components';
 import * as echarts from 'echarts';
 
 const ChartWrapper = styled.div`
-  border: 1px solid red;
-  div {
+  width: 100vw;
+  height: calc(100vh - 148px);
+  scroll-snap-align: start;
+  .chart {
     width: 100vw;
     height: 100vw;
   }
+  .total {
+    text-align: center;
+    opacity: 0;
+    transition: all 250ms;
+    &.visible {
+      opacity: 1;
+    }
+    p:last-child {
+      color: #ff8f78;
+    }
+  }
 `;
 
-const Chart: React.FC = () => {
+interface Props {
+  data: { value: string, name: string }[];
+  tab: string;
+  total: number
+}
+
+const Chart: React.FC<Props> = props => {
   const chart = useRef(null);
   useEffect(() => {
-    if (!chart.current) return;
-    echarts.init(chart.current).setOption({
+    echarts.init(chart.current!).setOption({
+      color: [
+        '#FF8D78',
+        '#FFAA78',
+        '#FFD578',
+        '#FFFC78',
+        '#78FFB2',
+        '#78FFEC',
+        '#78D9FF',
+        '#7887FF'
+      ],
       tooltip: {
         trigger: 'item'
       },
       legend: {
-        top: '5%',
         left: 'center'
       },
       series: [
         {
           type: 'pie',
-          radius: ['40%', '70%'],
-          avoidLabelOverlap: false,
+          radius: ['26%', '70%'],
           itemStyle: {
             borderRadius: 10,
             borderColor: '#fff',
             borderWidth: 2
           },
           label: {
-            show: false,
-            position: 'center'
+            show: false
           },
           emphasis: {
             label: {
               show: true,
-              fontSize: '40',
-              fontWeight: 'bold'
+              fontSize: '24',
+              fontWeight: 'bold',
+              color: '#FF8D78'
             }
           },
           labelLine: {
             show: false
           },
-          data: [
-            {value: 1048, name: '搜索引擎'},
-            {value: 735, name: '直接访问'},
-            {value: 580, name: '邮件营销'},
-            {value: 484, name: '联盟广告'},
-            {value: 300, name: '视频广告'}
-          ]
+          data: props.data
         }
       ]
     });
-  }, []);
+  }, [props.data]);
   return (
     <ChartWrapper>
-      <div ref={chart}/>
+      <div ref={chart} className="chart"/>
+      <div className={`total ${props.data.length < 1 ? '' : 'visible'}`}>
+        <p>当月{props.tab === 'pay' ? '支出' : '收入'}总计</p>
+        <p>{props.total}</p>
+      </div>
     </ChartWrapper>
   );
 };

@@ -9,6 +9,7 @@ const TopBarWrapper = styled.div`
   align-items: center;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
   z-index: 2;
+  flex-shrink: 0;
   button {
     width: 98px;
     height: 25.2px;
