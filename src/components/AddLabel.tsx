@@ -16,7 +16,7 @@ const AddLabelWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 2;
+  z-index: 400;
   opacity: 0;
   transition: all 250ms;
   &.visible {

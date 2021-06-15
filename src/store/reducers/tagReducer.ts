@@ -34,34 +34,44 @@ const tagsSource = {
   ]
 }
 
+interface State {
+  payTags: { id: number }[];
+  incomeTags: { id: number }[];
+  optionalTags: { id: number }[]
+}
+
 interface Payload {
   tagId: number,
   tagType: string,
   tagName: string
 }
-export const tagReducer = (state = tagsSource, action: { type: string, payload: Payload }) => {
+
+export const tagReducer = (state: State = JSON.parse(localStorage.getItem('tagsSource') || JSON.stringify(tagsSource)), action: { type: string, payload: Payload }) => {
   if (!action.payload) return state;
   const {tagId, tagType, tagName} = action.payload;
   switch (action.type) {
     case 'delete_tag':
+      let newState1;
       if (tagType === 'pay') {
         const tag = state.payTags.find(item => item.id === tagId);
-        return {
+        newState1 = {
           ...state,
           optionalTags: [...state.optionalTags, {...tag, chName: '', type: ''}],
           payTags: state.payTags.filter(tag => tag.id !== tagId)
         };
       } else {
         const tag = state.incomeTags.find(item => item.id === tagId);
-        return {
+        newState1 = {
           ...state,
           optionalTags: [...state.optionalTags, {...tag, chName: '', type: ''}],
           incomeTags: state.incomeTags.filter(tag => tag.id !== tagId)
         };
       }
+      localStorage.setItem('tagsSource', JSON.stringify(newState1));
+      return newState1;
     case 'add_tag':
       const tag = state.optionalTags.find(item => item.id === tagId);
-      return tagType === 'pay'
+      const newState2 = tagType === 'pay'
         ? {
           ...state,
           payTags: [...state.payTags, {...tag, chName: tagName, type: tagType}],
@@ -72,6 +82,8 @@ export const tagReducer = (state = tagsSource, action: { type: string, payload: 
           incomeTags: [...state.payTags, {...tag, chName: tagName, type: tagType}],
           optionalTags: state.optionalTags.filter(tag => tag.id !== tagId)
         };
+      localStorage.setItem('tagsSource', JSON.stringify(newState2));
+      return newState2;
     default:
       return state;
   }

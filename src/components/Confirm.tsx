@@ -16,7 +16,7 @@ const ConfirmWrapper = styled.div`
   opacity: 0;
   transition: all 250ms;
   &.visible {
-    z-index: 10;
+    z-index: 500;
     opacity: 1;
     transform: translate(-50%, 10px);
   }

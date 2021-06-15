@@ -31,9 +31,7 @@ const StatisticWrapper = styled.div`
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
     margin-top: 60px;
-    &.noData {
-      overflow: hidden;
-    }
+    position: relative;
     > li {
       scroll-snap-align: start;
       display: flex;
@@ -78,8 +76,8 @@ const StatisticWrapper = styled.div`
       }
     }
     .tip {
-      position: fixed;
-      top: 110px;
+      position: absolute;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
       color: #ff8f78;
@@ -108,9 +106,15 @@ const Statistic: React.FC<Props> = props => {
   };
   let data = [];
   for (let note of currentNotes) {
-    for (let item of note.items) {
+    outer: for (let item of note.items) {
       const tab = item.detail.slice(0, 1) === '-' ? 'pay' : 'income';
       if (tab === props.selectedTab) {
+        for (let dataItem of data) {
+          if (dataItem.name === item.chName) {
+            dataItem.value = (+dataItem.value + +item.detail.substr(1)).toString();
+            continue outer;
+          }
+        }
         data.push({value: item.detail.substr(1), name: item.chName});
       }
     }
@@ -125,15 +129,15 @@ const Statistic: React.FC<Props> = props => {
                       allowClear={false}
                       inputReadOnly defaultValue={Moment(Date.now())}/>
         </div>
-        <div className={`page ${data.length < 1 ? 'noData' : ''}`}>
+        <div className="page">
           <Chart data={data} tab={props.selectedTab} total={total}/>
           <li>
             {notes.map(note =>
               <ol key={note.date}>
                 <div className="date">{friendlyDate(note)}</div>
                 <li>
-                  {note.items.map(item =>
-                    <ul key={item.enName}>
+                  {note.items.map((item, index) =>
+                    <ul key={index}>
                       <div><Icon name={item.enName}/><span>{item.chName}</span><span>{item.mark}</span></div>
                       <span>{item.detail}</span>
                     </ul>)}

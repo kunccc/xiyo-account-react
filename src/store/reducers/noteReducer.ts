@@ -14,7 +14,7 @@ interface State {
   }]
 }
 
-export const noteReducer = (state: State | { notes: [] } = {notes: []}, action: { type: string, payload: Payload }) => {
+export const noteReducer = (state: State | { notes: [] } = JSON.parse(localStorage.getItem('notes') || '{"notes": []}'), action: { type: string, payload: Payload }) => {
   if (!action.payload) return state;
   const {enName, chName, type, date, mark, amount} = action.payload;
   switch (action.type) {
@@ -24,10 +24,12 @@ export const noteReducer = (state: State | { notes: [] } = {notes: []}, action: 
       for (let note of stateClone.notes) {
         if (note.date === date) {
           note.items.push({enName, chName, mark, detail});
+          localStorage.setItem('notes', JSON.stringify(stateClone));
           return stateClone;
         }
       }
       stateClone.notes.push({date, items: [{enName, chName, mark, detail}]});
+      localStorage.setItem('notes', JSON.stringify(stateClone));
       return stateClone;
     default:
       return state;
