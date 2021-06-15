@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Moment from 'moment';
 import {connect} from 'react-redux';
 import Icon from '../components/Icon';
+import Chart from '../components/Chart';
 
 const StatisticWrapper = styled.div`
   display: flex;
@@ -25,23 +26,13 @@ const StatisticWrapper = styled.div`
       height: 28px;
     }
   }
-  .chart {
-    height: calc(100vh - 90px);
-    .circle {
-      width: 200px;
-      height: 200px;
-      border: 1px solid #ff8f78;
-      border-radius: 50%;
-      margin-top: 60px;
-    }
-  }
   > li {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100vh;
     overflow: auto;
-    > ul {
+    > ol {
       .date {
         background: #e9e9e9;
         font-size: 12px;
@@ -86,7 +77,13 @@ interface Props {
 
 const Statistic: React.FC<Props> = props => {
   const [date, setDate] = useState(now().now);
-  console.log(props.notes);
+  const currentNotes = props.notes.filter(note => note.date.slice(0, 7) === date);
+  const notes = currentNotes.sort((a, b) => +b.date.replace(/-/g, '') - +a.date.replace(/-/g, ''));
+  const friendlyDate = (note: { date: string }) => {
+    if (now().fullNow === note.date) return '今天';
+    if (+now().fullNow.replace(/-/g, '') - +note.date.replace(/-/g, '') === 1) return '昨天';
+    return note.date;
+  };
   return (
     <Layout>
       <StatisticWrapper>
@@ -95,13 +92,11 @@ const Statistic: React.FC<Props> = props => {
                       allowClear={false}
                       inputReadOnly defaultValue={Moment(Date.now())}/>
         </div>
-        <div className="chart">
-          <div className="circle"/>
-        </div>
+        <Chart/>
         <li>
-          {props.notes.map(note =>
-            <ul key={note.date}>
-              <div className="date">{note.date}</div>
+          {notes.map(note =>
+            <ol key={note.date}>
+              <div className="date">{friendlyDate(note)}</div>
               <li>
                 {note.items.map(item =>
                   <ul key={item.enName}>
@@ -109,7 +104,7 @@ const Statistic: React.FC<Props> = props => {
                     <span>{item.detail}</span>
                   </ul>)}
               </li>
-            </ul>)}
+            </ol>)}
         </li>
       </StatisticWrapper>
     </Layout>
