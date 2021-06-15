@@ -32,6 +32,10 @@ const StatisticWrapper = styled.div`
     overflow-y: scroll;
     margin-top: 60px;
     position: relative;
+    &.noData {
+      height: calc(100vh - 150px);
+      overflow: hidden;
+    }
     > li {
       scroll-snap-align: start;
       display: flex;
@@ -129,7 +133,7 @@ const Statistic: React.FC<Props> = props => {
                       allowClear={false}
                       inputReadOnly defaultValue={Moment(Date.now())}/>
         </div>
-        <div className="page">
+        <div className={`page ${currentNotes.length < 1 ? 'noData' : ''}`}>
           <Chart data={data} tab={props.selectedTab} total={total}/>
           <li>
             {notes.map(note =>
