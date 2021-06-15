@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 const AddLabelWrapper = styled.div`
   width: 250px;
   height: 190px;
-  border: 1px solid #ff8f78;
+  box-shadow: 0 0 2px #ff8f78;
   background: #fff;
   position: absolute;
   top: 25%;

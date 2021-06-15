@@ -12,7 +12,7 @@ import {now} from '../lib/now';
 const NoteWrapper = styled.div`
   width: 250px;
   height: 240px;
-  border: 1px solid #ff8f78;
+  box-shadow: 0 0 2px #ff8f78;
   position: absolute;
   top: 25%;
   left: 50%;

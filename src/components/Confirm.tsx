@@ -3,8 +3,8 @@ import React from 'react';
 
 const ConfirmWrapper = styled.div`
   width: 250px;
-  height: 132px;
-  border: 1px solid #ff8f78;
+  height: 130px;
+  box-shadow: 0 0 2px #ff8f78;
   background: #fff;
   position: absolute;
   top: 30%;
