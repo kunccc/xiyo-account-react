@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Icon from './Icon';
 import styled from 'styled-components';
 import {DatePicker} from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.less';
 import 'moment/locale/zh-cn';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import Moment from 'moment';

@@ -53,25 +53,27 @@ const imageInlineSizeLimit = parseInt(
 );
 
 // Check if TypeScript is setup
-const useTypeScript = fs.existsSync(paths.appTsConfig);
+const useTypeScript = fs.existsSync(paths.appTsConfig)
 
 // Get the path to the uncompiled service worker (if it exists).
-const swSrc = paths.swSrc;
+const swSrc = paths.swSrc
 
 // style files regexes
-const cssRegex = /\.css$/;
-const cssModuleRegex = /\.module\.css$/;
-const sassRegex = /\.(scss|sass)$/;
-const sassModuleRegex = /\.module\.(scss|sass)$/;
+const cssRegex = /\.css$/
+const cssModuleRegex = /\.module\.css$/
+const sassRegex = /\.(scss|sass)$/
+const sassModuleRegex = /\.module\.(scss|sass)$/
+const lessRegex = /\.less$/
+const lessModuleRegex = /\.module\.less$/
 
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
-    return false;
+    return false
   }
 
   try {
-    require.resolve('react/jsx-runtime');
-    return true;
+    require.resolve('react/jsx-runtime')
+    return true
   } catch (e) {
     return false;
   }
@@ -361,12 +363,30 @@ module.exports = function (webpackEnv) {
       strictExportPresence: true,
       rules: [
         // Disable require.ensure as it's not a standard language feature.
-        { parser: { requireEnsure: false } },
+        {parser: {requireEnsure: false}},
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall
           // back to the "file" loader at the end of the loader list.
           oneOf: [
+            {
+              test: /\.less$/,
+              use: [{
+                loader: 'style-loader',
+              }, {
+                loader: 'css-loader',
+              }, {
+                loader: 'less-loader',
+                options: {
+                  lessOptions: {
+                    modifyVars: {
+                      'primary-color': '#ff8f78',
+                    },
+                    javascriptEnabled: true,
+                  },
+                },
+              }],
+            },
             {
               test: /\.svg$/,
               use: [
@@ -546,6 +566,31 @@ module.exports = function (webpackEnv) {
                 },
                 'sass-loader'
               ),
+            },
+            {
+              test: lessRegex,
+              exclude: lessModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  modules: true,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                },
+                'less-loader'
+              ),
+              sideEffects: true,
+            },
+            {
+              test: lessModuleRegex,
+              use: getStyleLoaders(
+                {
+                  javascriptEnabled: true,
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                  getLocalIdent: getCSSModuleLocalIdent,
+                },
+                'less-loader'
+              )
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.

@@ -130,8 +130,7 @@ const Statistic: React.FC<Props> = props => {
       <StatisticWrapper>
         <div className="datepicker">
           <DatePicker onChange={(_: any, time: string) => setDate(time)} picker="month" locale={locale}
-                      allowClear={false}
-                      inputReadOnly defaultValue={Moment(Date.now())}/>
+                      allowClear={false} inputReadOnly defaultValue={Moment(Date.now())}/>
         </div>
         <div className={`page ${currentNotes.length < 1 ? 'noData' : ''}`}>
           <Chart data={data} tab={props.selectedTab} total={total}/>
