@@ -30,9 +30,10 @@ interface Props {
 }
 
 const Chart: React.FC<Props> = props => {
-  const chart = useRef(null);
+  const chart = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    echarts.init(chart.current!).setOption({
+    if (!chart.current) return;
+    echarts.init(chart.current).setOption({
       color: [
         '#FF8D78',
         '#FFAA78',

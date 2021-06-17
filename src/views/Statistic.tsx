@@ -36,21 +36,21 @@ const StatisticWrapper = styled.div`
       height: calc(100vh - 150px);
       overflow: hidden;
     }
-    > li {
+    > ol {
       scroll-snap-align: start;
       display: flex;
       flex-direction: column;
       width: 100vw;
       height: calc(100vh - 148px);
-      > ol {
+      > li {
         .date {
           background: #e9e9e9;
           font-size: 12px;
           padding: 2px 5px;
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
         }
-        > li {
-          > ul {
+        > ul {
+          > li {
             display: flex;
             padding: 10px;
             align-items: center;
@@ -134,19 +134,19 @@ const Statistic: React.FC<Props> = props => {
         </div>
         <div className={`page ${currentNotes.length < 1 ? 'noData' : ''}`}>
           <Chart data={data} tab={props.selectedTab} total={total}/>
-          <li>
+          <ol>
             {notes.map(note =>
-              <ol key={note.date}>
+              <li key={note.date}>
                 <div className="date">{friendlyDate(note)}</div>
-                <li>
+                <ul>
                   {note.items.map((item, index) =>
-                    <ul key={index}>
+                    <li key={index}>
                       <div><Icon name={item.enName}/><span>{item.chName}</span><span>{item.mark}</span></div>
                       <span>{item.detail}</span>
-                    </ul>)}
-                </li>
-              </ol>)}
-          </li>
+                    </li>)}
+                </ul>
+              </li>)}
+          </ol>
           <p className={`tip ${data.length < 1 ? 'visible' : ''}`}>当月暂无数据</p>
         </div>
       </StatisticWrapper>
