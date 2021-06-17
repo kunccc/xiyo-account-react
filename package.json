@@ -1,6 +1,7 @@
 {
   "name": "xiyo-account-react",
   "version": "0.1.0",
+  "homepage": "https://kunccc.github.io/xiyoAccount-website/",
   "private": true,
   "dependencies": {
     "@babel/core": "7.12.3",
@@ -83,7 +84,8 @@
   "scripts": {
     "start": "set BROWSER=none&&node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "deploy": "sh scripts/deploy.sh"
   },
   "eslintConfig": {
     "extends": [
