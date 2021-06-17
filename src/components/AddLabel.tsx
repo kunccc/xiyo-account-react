@@ -16,10 +16,11 @@ const AddLabelWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 400;
+  z-index: -1;
   opacity: 0;
   transition: all 250ms;
   &.visible {
+    z-index: 400;
     opacity: 1;
     transform: translate(-50%, 10px);
   }

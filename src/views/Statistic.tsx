@@ -1,5 +1,5 @@
 import Layout from 'components/Layout';
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {DatePicker} from 'antd';
 import {now} from '../lib/now';
 import 'moment/locale/zh-cn';
@@ -82,8 +82,8 @@ const StatisticWrapper = styled.div`
       }
     }
     .tip {
-      position: fixed;
-      top: 110px;
+      position: absolute;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
       color: #ff8f78;
@@ -127,6 +127,11 @@ const Statistic: React.FC<Props> = props => {
   }
   let total = 0;
   data.forEach(item => total += +item.value);
+  const page = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!page.current) return;
+    if (data.length < 1) page.current.scrollTo(0, 0);
+  }, [data.length]);
   return (
     <Layout>
       <StatisticWrapper>
@@ -134,7 +139,7 @@ const Statistic: React.FC<Props> = props => {
           <DatePicker onChange={(_: any, time: string) => setDate(time)} picker="month" locale={locale}
                       allowClear={false} inputReadOnly defaultValue={Moment(Date.now())}/>
         </div>
-        <div className={`page ${currentNotes.length < 1 ? 'noData' : ''}`}>
+        <div className={`page ${data.length < 1 ? 'noData' : ''}`} ref={page}>
           <Chart data={data} tab={props.selectedTab} total={total}/>
           <ol>
             {notes.map(note =>
