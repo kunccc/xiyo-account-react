@@ -9,6 +9,7 @@ import Moment from 'moment';
 import {connect} from 'react-redux';
 import Icon from '../components/Icon';
 import Chart from '../components/Chart';
+import Tip from '../components/Tip';
 
 const StatisticWrapper = styled.div`
   display: flex;
@@ -28,6 +29,7 @@ const StatisticWrapper = styled.div`
   }
   .page {
     height: calc(100vh - 148px);
+    width: 100%;
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
     margin-top: 60px;
@@ -40,7 +42,7 @@ const StatisticWrapper = styled.div`
       scroll-snap-align: start;
       display: flex;
       flex-direction: column;
-      width: 100vw;
+      width: 100%;
       height: calc(100vh - 148px);
       > li {
         .date {
@@ -80,8 +82,8 @@ const StatisticWrapper = styled.div`
       }
     }
     .tip {
-      position: absolute;
-      top: 20px;
+      position: fixed;
+      top: 110px;
       left: 50%;
       transform: translateX(-50%);
       color: #ff8f78;
@@ -101,7 +103,7 @@ interface Props {
 
 const Statistic: React.FC<Props> = props => {
   const [date, setDate] = useState(now().now);
-  const currentNotes = props.notes.filter(note => note.date.slice(0, 7) === date);
+  const currentNotes = props.notes.filter(note => note.date.slice(0, 7) === date) || [];
   const notes = currentNotes.sort((a, b) => +b.date.replace(/-/g, '') - +a.date.replace(/-/g, ''));
   const friendlyDate = (note: { date: string }) => {
     if (now().fullNow === note.date) return '今天';
@@ -148,6 +150,7 @@ const Statistic: React.FC<Props> = props => {
               </li>)}
           </ol>
           <p className={`tip ${data.length < 1 ? 'visible' : ''}`}>当月暂无数据</p>
+          <Tip currentNotes={currentNotes}/>
         </div>
       </StatisticWrapper>
     </Layout>

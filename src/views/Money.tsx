@@ -27,7 +27,7 @@ const LabelList = styled.div`
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      border: 1px solid #aaa;
+      border: 1px solid #ccc;
       border-radius: 50%;
       .icon {
         margin-bottom: 2px;
@@ -54,11 +54,12 @@ const LabelList = styled.div`
   }
 `;
 const Button = styled.button`
-  width: 64vw;
+  width: 64%;
   position: absolute;
   bottom: 96px;
-  left: 18vw;
-  padding: 4px 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 90px;
   background: #ff8f78;
   color: #fff;
   border: none;

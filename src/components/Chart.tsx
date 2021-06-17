@@ -3,12 +3,21 @@ import styled from 'styled-components';
 import * as echarts from 'echarts';
 
 const ChartWrapper = styled.div`
-  width: 100vw;
+  width: 100%;
   height: calc(100vh - 148px);
   scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .chart {
     width: 100vw;
     height: 100vw;
+  }
+  @media (min-width: 520px) {
+    .chart {
+      width: 480px;
+      height: 480px;
+    }
   }
   .total {
     text-align: center;
